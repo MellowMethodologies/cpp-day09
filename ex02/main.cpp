@@ -20,67 +20,24 @@ bool parser (char **av)
     return 1;
 }
 
-bool PmergeMe::is_sorted(std::map<int, std::pair<int, int> >& map)
+std::vector <std::pair<int, int> > ft_pairing(std::vector<int> full_set)
 {
-    for (size_t i = 0; i + 1 < map.size() ; i++)
-    {
-        if (map[i].first > map[i + 1].first)
-        {
-            swaper(&map, i, i + 1);
-            return false;
-        }
-    }
-    return true;
-}
-
-void PmergeMe::ft_sort(std::map<int, std::pair<int, int> >& map)
-{
-    if (!is_sorted(map))
-        ft_sort(map);
-    else 
-        return;
-}
-
-void PmergeMe::ft_inserting(std::map <int , std::pair<int, int> > map)
-{
-    std::map <int, int> chain;
-    std::map <int, int> pend;
-
-    for(size_t i = 0; i < map.size(); i++)
-    {
-        chain[i] = map[i].first;
-        pend[i] = map[i].second;
-    }
-
-}
-
-int jacob_gen(std::map<int, int> map)
-{
-
-}
-
-std::map <int , std::pair<int, int> > ft_pairing(std::map<int, int> full_set)
-{
-    std::map <int , std::pair<int, int> > map;
+    std::vector <std::pair<int, int> > vec;
 
     for (size_t i = 0, j = 0; i + 1 < full_set.size(); j++ , i += 2)
     {
         if (full_set[i + 1] < full_set[i])
         {
-            map[j].first = full_set[i];
-            map[j].second = full_set[i + 1];
+            vec[j].first = full_set[i];
+            vec[j].second = full_set[i + 1];
         }
         else
         {
-            map[j].first = full_set[i + 1];
-            map[j].second = full_set[i];
+            vec[j].first = full_set[i + 1];
+            vec[j].second = full_set[i];
         }
     }
-    PmergeMe::ft_sort(map);
-    for (size_t i = 0; i < map.size(); i++)
-    {
-        std::cout << map[i].first << " " << map[i].second << std::endl;
-    }
+    return vec;
 }
 
 int main(int ac, char** av)
@@ -96,7 +53,7 @@ int main(int ac, char** av)
     else
     {
         std::deque<int> deque;
-        std::map<int, int> map;
+        std::vector<int> vector;
         PmergeMe p;
         int i = 0;
         int j = 1;
@@ -114,10 +71,11 @@ int main(int ac, char** av)
         while (av[j])
         {
             deque.push_back(std::atoi(av[j]));
-            map[i] = std::atoi(av[j]);
+            vector.push_back(std::atoi(av[j]));
             i++;
             j++;
         }
-        PmergeMe::ft_inserting(ft_pairing(map));
+        p.ft_inserting(p, ft_pairing(vector));
+        // p.print_mainchain();
     }
 }
